@@ -1,18 +1,22 @@
 package dk.holstandersen.rpncal;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Button;
 
 import java.util.Stack;
 
 import dk.holstandersen.rpncal.operators.*;
 
-public class RPNCal extends Activity implements OnClickListener {
+public class RPNCalActivity extends Activity implements OnClickListener, OnDismissListener {
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
 	 */
@@ -71,26 +75,20 @@ public class RPNCal extends Activity implements OnClickListener {
 	        }
         }
         setContentView(R.layout.main);
-        findViewById(R.id.key_0).setOnClickListener(this);
-        findViewById(R.id.key_1).setOnClickListener(this);
-        findViewById(R.id.key_2).setOnClickListener(this);
-        findViewById(R.id.key_3).setOnClickListener(this);
-        findViewById(R.id.key_4).setOnClickListener(this);
-        findViewById(R.id.key_5).setOnClickListener(this);
-        findViewById(R.id.key_6).setOnClickListener(this);
-        findViewById(R.id.key_7).setOnClickListener(this);
-        findViewById(R.id.key_8).setOnClickListener(this);
-        findViewById(R.id.key_9).setOnClickListener(this);
-        findViewById(R.id.key_dot).setOnClickListener(this);
-        findViewById(R.id.key_back).setOnClickListener(this);
-        findViewById(R.id.key_enter).setOnClickListener(this);
-        findViewById(R.id.key_add).setOnClickListener(this);
-        findViewById(R.id.key_sub).setOnClickListener(this);
-        findViewById(R.id.key_mul).setOnClickListener(this);
-        findViewById(R.id.key_div).setOnClickListener(this);
-        findViewById(R.id.key_inv).setOnClickListener(this);
-        findViewById(R.id.key_chs_sign).setOnClickListener(this);
+        setOnClickListenerOnButtonDecentants(findViewById(R.id.main_view), this);
         updateStackView();
+    }
+    
+    public static void setOnClickListenerOnButtonDecentants(View v, OnClickListener l) {
+    	if (v instanceof Button) {
+    		v.setOnClickListener(l);
+    	}
+    	else if (v instanceof ViewGroup) {
+    		ViewGroup vg = (ViewGroup)v;
+    		for (int i=0; i<vg.getChildCount(); i++) {
+    			setOnClickListenerOnButtonDecentants(vg.getChildAt(i), l);
+    		}
+    	}
     }
 
 	@Override
@@ -139,19 +137,19 @@ public class RPNCal extends Activity implements OnClickListener {
 				enter();
 				break;
 			case R.id.key_add:
-				doBinaryOperator(new AdditionOperator());
+				doOperator(new AdditionOperator());
 				break;
 			case R.id.key_sub:
-				doBinaryOperator(new SubtractionOperator());
+				doOperator(new SubtractionOperator());
 				break;
 			case R.id.key_mul:
-				doBinaryOperator(new MultiplicationOperator());
+				doOperator(new MultiplicationOperator());
 				break;
 			case R.id.key_div:
-				doBinaryOperator(new DivisionOperator(this));
+				doOperator(new DivisionOperator(this));
 				break;
-			case R.id.key_inv:
-				doUnaryOperator(new InvertOperator(this));
+			case R.id.key_more:
+				more();
 				break;
 			case R.id.key_chs_sign:
 				changeSign();
@@ -165,6 +163,17 @@ public class RPNCal extends Activity implements OnClickListener {
 		updateStackView();
 	}
 	
+	private void more() throws RPNOperationException {
+		Log.d(TAG, "more operators...");
+		OperatorsDialog od = new OperatorsDialog(this);
+		od.setOnDismissListener(this);
+		od.show();
+		
+		if (od.getSelectedOperator()!=null) {
+			doOperator(od.getSelectedOperator());
+		}
+	}
+
 	private void changeSign() {
 		if (currentInput.length()>0) {
 			if (currentInput.startsWith("-")) {
@@ -221,15 +230,15 @@ public class RPNCal extends Activity implements OnClickListener {
 				addCharToCurrentInput('.');
 				break;
 			case KeyEvent.KEYCODE_PLUS:
-				doBinaryOperator(new AdditionOperator());
+				doOperator(new AdditionOperator());
 				break;
 			case KeyEvent.KEYCODE_MINUS:
-				doBinaryOperator(new SubtractionOperator());
+				doOperator(new SubtractionOperator());
 				break;
 			case KeyEvent.KEYCODE_STAR:
-				doBinaryOperator(new MultiplicationOperator());
+				doOperator(new MultiplicationOperator());
 			case KeyEvent.KEYCODE_SLASH:
-				doBinaryOperator(new DivisionOperator(this));
+				doOperator(new DivisionOperator(this));
 			case KeyEvent.KEYCODE_ENTER:
 				enter();
 				break;
@@ -284,6 +293,18 @@ public class RPNCal extends Activity implements OnClickListener {
 		currentInput = "";
 	}
 	
+	private void doOperator(Operator op) throws RPNOperationException {
+		if (op instanceof BinaryOperator) {
+			doBinaryOperator((BinaryOperator)op);
+		}
+		else if (op instanceof UnaryOperator) {
+			doUnaryOperator((UnaryOperator)op);
+		}
+		else if (op instanceof BinaryOperator) {
+			doNullaryOperator((NullaryOperator)op);
+		}
+	}
+	
 	private void doBinaryOperator(BinaryOperator opp) throws RPNOperationException {
 		enterIf();
 		if (rpnStack.size()>1) {
@@ -308,16 +329,47 @@ public class RPNCal extends Activity implements OnClickListener {
 		if (rpnStack.size()>0) {
 			Double arg = rpnStack.pop();
 			try {
-				rpnStack.push(op.invoke(arg));
+				rpnStack.push(op.calculate(arg));
 			}
 			catch (RPNOperationException e) {
 				rpnStack.push(arg);
 				throw e;
 			}
 		}
+		else {
+			throw new RPNOperationException(getString(R.string.msg_too_few_args));
+		}
+	}
+	
+	private void doNullaryOperator(NullaryOperator op) throws RPNOperationException {
+		enterIf();
+		try {
+			rpnStack.push(op.calculate());
+		}
+		catch (RPNOperationException e) {
+			throw e;
+		}
 	}
 	
 	private void enterIf() {
 		if (currentInput.length()>0) enter();
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		if (dialog instanceof OperatorsDialog) {
+			Operator op = ((OperatorsDialog)dialog).getSelectedOperator();
+			if (op != null) {
+				try {
+					doOperator(op);
+				}
+				catch (RPNOperationException e) {
+					latestError = e.getMessage();
+				}
+				updateStackView();
+				
+			}
+		}
+		
 	}
 }

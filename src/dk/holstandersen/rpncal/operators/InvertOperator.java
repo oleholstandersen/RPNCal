@@ -11,7 +11,7 @@ public class InvertOperator extends AbstractContextualUnaryOperator {
 	}
 
 	@Override
-	public Double invoke(Double arg) throws RPNOperationException {
+	public Double calculate(Double arg) throws RPNOperationException {
 		if (arg==0.0) throw new RPNOperationException(getString(R.string.msg_div_by_zero));
 		return Math.pow(arg, -1);
 	}
