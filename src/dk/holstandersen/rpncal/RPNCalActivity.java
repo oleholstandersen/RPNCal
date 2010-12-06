@@ -300,7 +300,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 		else if (op instanceof UnaryOperator) {
 			doUnaryOperator((UnaryOperator)op);
 		}
-		else if (op instanceof BinaryOperator) {
+		else if (op instanceof NullaryOperator) {
 			doNullaryOperator((NullaryOperator)op);
 		}
 	}
