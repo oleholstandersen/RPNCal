@@ -16,7 +16,7 @@ public class Log10Operator extends AbstractContextualUnaryOperator {
 		if (arg<=0) {
 			throw new RPNOperationException(getString(R.string.msg_log_of_non_positive));
 		}
-		return Math.log(arg);
+		return Math.log10(arg);
 	}
 
 }

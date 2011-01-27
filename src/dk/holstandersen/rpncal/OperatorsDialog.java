@@ -55,13 +55,13 @@ public class OperatorsDialog extends Dialog implements OnClickListener  {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.key_inv:
-			selectedOperator = new InvertOperator(getOwnerActivity());
+			selectedOperator = new InvertOperator(getContext());
 			break;
 		case R.id.key_pow:
-			selectedOperator = new PowerOperator(getOwnerActivity());
+			selectedOperator = new PowerOperator(getContext());
 			break;
 		case R.id.key_sqrt:
-			selectedOperator = new SqrtOperator(getOwnerActivity());
+			selectedOperator = new SqrtOperator(getContext());
 			break;
 		case R.id.key_exp10:
 			selectedOperator = new Exp10Operator();
@@ -70,13 +70,13 @@ public class OperatorsDialog extends Dialog implements OnClickListener  {
 			selectedOperator = new PiOperator();
 			break;
 		case R.id.key_nroot:
-			selectedOperator = new NRootOperator(getOwnerActivity());
+			selectedOperator = new NRootOperator(getContext());
 			break;
 		case R.id.key_sqr:
 			selectedOperator = new SqrOperator();
 			break;
 		case R.id.key_log10:
-			selectedOperator = new Log10Operator(getOwnerActivity());
+			selectedOperator = new Log10Operator(getContext());
 			break;
 		case R.id.key_sin:
 			selectedOperator = new SinOperator();
@@ -91,16 +91,16 @@ public class OperatorsDialog extends Dialog implements OnClickListener  {
 			selectedOperator = new ExpOperator();
 			break;
 		case R.id.key_asin:
-			selectedOperator = new ASinOperator(getOwnerActivity());
+			selectedOperator = new ASinOperator(getContext());
 			break;
 		case R.id.key_acos:
-			selectedOperator = new ACosOperator(getOwnerActivity());
+			selectedOperator = new ACosOperator(getContext());
 			break;
 		case R.id.key_atan:
 			selectedOperator = new ATanOperator();
 			break;
 		case R.id.key_log:
-			selectedOperator = new LogOperator(getOwnerActivity());
+			selectedOperator = new LogOperator(getContext());
 			break;
 		}
 		dismiss();

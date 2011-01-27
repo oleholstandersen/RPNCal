@@ -4,7 +4,7 @@
 	android:gravity="right|bottom" android:id="@+id/main_view">
 	<TextView 
 		android:id="@+id/stack_text"
-		android:layout_height="@dimen/stack_height" android:textSize="20dip"
+		android:layout_height="@dimen/stack_height" android:textSize="@dimen/stack_textsize"
 		android:hint="0" android:gravity="right|bottom" android:typeface="monospace" android:padding="5dip"/>
 	<include layout="@layout/keypadtable" android:gravity="right|bottom" android:layout_height="@dimen/keypad_height"></include>
 </TableLayout>

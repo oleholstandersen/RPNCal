@@ -168,10 +168,6 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 		OperatorsDialog od = new OperatorsDialog(this);
 		od.setOnDismissListener(this);
 		od.show();
-		
-		if (od.getSelectedOperator()!=null) {
-			doOperator(od.getSelectedOperator());
-		}
 	}
 
 	private void changeSign() {

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<dimen name="operatorkeypad_height">200dip</dimen>
-<dimen name="operatorkeypad_width">240dip</dimen>
-<dimen name="keypad_height">240dip</dimen>
+<dimen name="operatorkeypad_height">300dip</dimen>
+<dimen name="operatorkeypad_width">300dip</dimen>
+<dimen name="operatorkeypad_rowheight">75dip</dimen>
+<dimen name="operatorkeypad_textsize">20dip</dimen>
+<dimen name="keypad_height">275dip</dimen>
+<dimen name="keypad_textsize">20dip</dimen>
 <dimen name="keypad_width">200dip</dimen>
+<dimen name="keypad_rowheight">55dip</dimen>
 <dimen name="stack_height">200dip</dimen>
-<dimen name="stack_width">200dip</dimen>
+<dimen name="stack_textsize">25dip</dimen>
 </resources>

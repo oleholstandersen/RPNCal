@@ -3,29 +3,30 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="@dimen/operatorkeypad_width"
   android:layout_height="@dimen/operatorkeypad_height"
-  android:stretchColumns="*" android:id="@+id/operators_view">
+  android:stretchColumns="*" android:id="@+id/operators_view"
+  android:textSize="@dimen/operatorkeypad_textsize">
   <TableRow>
-  	<Button android:text="@string/opr_inv" android:id="@+id/key_inv" android:width="0dip"/>
-  	<Button android:text="@string/opr_pow" android:id="@+id/key_pow" android:width="0dip"/>
-  	<Button android:text="@string/opr_sqrt" android:id="@+id/key_sqrt" android:width="0dip"/>
-  	<Button android:text="@string/opr_exp10" android:id="@+id/key_exp10" android:width="0dip"/>
+  	<Button android:text="@string/opr_inv" android:id="@+id/key_inv" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_pow" android:id="@+id/key_pow" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_sqrt" android:id="@+id/key_sqrt" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_exp10" android:id="@+id/key_exp10" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_pi" android:id="@+id/key_pi" android:width="0dip"/>
-  	<Button android:text="@string/opr_nroot" android:id="@+id/key_nroot" android:width="0dip"/>
-  	<Button android:text="@string/opr_sqr" android:id="@+id/key_sqr" android:width="0dip"/>
-  	<Button android:text="@string/opr_log10" android:id="@+id/key_log10" android:width="0dip"/>
+  	<Button android:text="@string/opr_pi" android:id="@+id/key_pi" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_nroot" android:id="@+id/key_nroot" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_sqr" android:id="@+id/key_sqr" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_log10" android:id="@+id/key_log10" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_sin" android:id="@+id/key_sin" android:width="0dip"/>
-  	<Button android:text="@string/opr_cos" android:id="@+id/key_cos" android:width="0dip"/>
-  	<Button android:text="@string/opr_tan" android:id="@+id/key_tan" android:width="0dip"/>
-  	<Button android:text="@string/opr_exp" android:id="@+id/key_exp" android:width="0dip"/>
+  	<Button android:text="@string/opr_sin" android:id="@+id/key_sin" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_cos" android:id="@+id/key_cos" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_tan" android:id="@+id/key_tan" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_exp" android:id="@+id/key_exp" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_asin" android:id="@+id/key_asin" android:width="0dip"/>
-  	<Button android:text="@string/opr_acos" android:id="@+id/key_acos" android:width="0dip"/>
-  	<Button android:text="@string/opr_atan" android:id="@+id/key_atan" android:width="0dip"/>
-  	<Button android:text="@string/opr_log" android:id="@+id/key_log" android:width="0dip"/>
+  	<Button android:text="@string/opr_asin" android:id="@+id/key_asin" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_acos" android:id="@+id/key_acos" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_atan" android:id="@+id/key_atan" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<Button android:text="@string/opr_log" android:id="@+id/key_log" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
   </TableRow>
 </TableLayout>

@@ -16,7 +16,7 @@ public class SqrtOperator extends AbstractContextualUnaryOperator {
 		if (arg<0) {
 			throw new RPNOperationException(getString(R.string.msg_power_of_negative));
 		}
-		return Math.pow(arg, 2.0);
+		return Math.sqrt(arg);
 	}
 
 }
