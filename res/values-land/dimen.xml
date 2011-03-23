@@ -5,8 +5,8 @@
 <dimen name="operatorkeypad_rowheight">60dip</dimen>
 <dimen name="operatorkeypad_textsize">20dip</dimen>
 <dimen name="keypad_height">240dip</dimen>
-<dimen name="keypad_width">50dip</dimen>
+<dimen name="keypad_width">0dip</dimen>
 <dimen name="keypad_rowheight">58dip</dimen>
-<dimen name="stack_textsize">20dip</dimen>
+<dimen name="stack_textsize">25dip</dimen>
 <dimen name="keypad_textsize">16dip</dimen>
 </resources>

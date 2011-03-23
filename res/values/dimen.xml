@@ -8,6 +8,6 @@
 <dimen name="keypad_textsize">20dip</dimen>
 <dimen name="keypad_width">200dip</dimen>
 <dimen name="keypad_rowheight">55dip</dimen>
-<dimen name="stack_height">200dip</dimen>
+<dimen name="stack_height">240dip</dimen>
 <dimen name="stack_textsize">25dip</dimen>
 </resources>

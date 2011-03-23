@@ -262,6 +262,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 
 	private void updateStackView() {
 		int stackLinesShown = getResources().getInteger(R.integer.stack_lines_shown);
+		stackLinesShown -= currentInput.length() / getResources().getInteger(R.integer.stack_chars_per_line);
 		String text = "";
 		if (latestError!="") {
 			stackLinesShown--;
