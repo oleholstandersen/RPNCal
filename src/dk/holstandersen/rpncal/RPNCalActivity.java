@@ -262,8 +262,12 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 
 	private void updateStackView() {
 		int stackLinesShown = getResources().getInteger(R.integer.stack_lines_shown);
-		TextView stackView = (TextView)findViewById(R.id.stack_text);
 		String text = "";
+		if (latestError!="") {
+			stackLinesShown--;
+			text = latestError+"\n";
+		}
+		TextView stackView = (TextView)findViewById(R.id.stack_text);
 		int start = 0; 
 		if (rpnStack.size()>stackLinesShown) start = rpnStack.size()-stackLinesShown;
 		for (int i=start; i<rpnStack.size(); i++) {

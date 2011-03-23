@@ -13,13 +13,13 @@ public class PowerOperator extends AbstractContextualBinaryOperator {
 	@Override
 	public Double calculate(Double arg1, Double arg2)
 		throws RPNOperationException {
-		if (arg2<0) {
-			throw new RPNOperationException(getString(R.string.msg_power_of_negative));
+		if (arg1<0 && arg2<1) {
+			throw new RPNOperationException(getString(R.string.msg_root_of_negative));
 		}
-		else if (arg2==0.0 && arg1<0) {
+		else if (arg1==0.0 && arg2<0) {
 			throw new RPNOperationException(getString(R.string.msg_div_by_zero));
 		}
-		return Math.pow(arg2, arg1);
+		return Math.pow(arg1, arg2);
 	}
 
 }

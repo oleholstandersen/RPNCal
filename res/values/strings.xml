@@ -19,7 +19,7 @@
     <string name="app_name">RPNCal</string>
     <string name="msg_too_few_args">Too few arguments</string>
     <string name="msg_div_by_zero">Division by zero</string>
-    <string name="msg_power_of_negative">Power of negative</string>
+    <string name="msg_root_of_negative">Root of negative</string>
     <string name="msg_log_of_non_positive">Logarithm of non-positive</string>
     <string name="msg_arg_out_of_range">Argument out of range</string>
     <string name="opr_add">+</string>
