@@ -16,7 +16,7 @@ public class ACosOperator extends AbstractContextualUnaryOperator {
 		if (arg<-1 || 1<arg) {
 			throw new RPNOperationException(getString(R.string.msg_arg_out_of_range));
 		}
-		return Math.asin(arg);
+		return Math.acos(arg);
 	}
 
 }

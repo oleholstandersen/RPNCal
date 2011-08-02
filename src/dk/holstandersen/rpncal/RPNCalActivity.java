@@ -40,15 +40,19 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 	
 	private String latestError = "";
 	
-	private char dotChar = '.';
-	private char thousandChar = ',';
+	private boolean useCommaDecimalSeparator = false;
 	
-	private Double getCurrentInputAsDouble() {
-		Double val = 0.0;
+	private double parseDouble(String input)
+	{
+		if (getDotChar()!='.') input = input.replace(getDotChar(), '.');
+		return Double.parseDouble(input);
+		
+	}
+	
+	private double getCurrentInputAsDouble() {
+		double val = 0.0;
 		if (currentInput.length()>0) {
-			String inp = currentInput;
-			if (dotChar!='.') inp = inp.replace(dotChar, '.');
-			val = Double.parseDouble(inp);
+			val = parseDouble(currentInput);
 		}
 		else if (rpnStack.size()>0) {
 			return rpnStack.peek();
@@ -60,8 +64,8 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 		if (Character.isDigit(ch)) {
 			currentInput = currentInput+ch;
 		}
-		else if (ch==dotChar) {
-			String dotString = ""+dotChar;
+		else if (ch==getDotChar()) {
+			String dotString = ""+getDotChar();
 			if (!currentInput.contains(dotString)) currentInput = currentInput+ch;
 			if (currentInput.startsWith(dotString)) currentInput = "0"+currentInput;
 		}
@@ -71,8 +75,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dotChar = getText(R.string.key_dot).toString().charAt(0);
-        thousandChar = getText(R.string.thousand_char).toString().charAt(0);
+        useCommaDecimalSeparator = getResources().getBoolean(R.bool.use_comma_decimal_separator);
         if (savedInstanceState!=null) {
 	        if (savedInstanceState.containsKey(RPN_STACK_KEY)) {
 	        	double[] stack = savedInstanceState.getDoubleArray(RPN_STACK_KEY);
@@ -85,6 +88,11 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
         }
         setContentView(R.layout.main);
         setOnClickListenerOnButtonDecentants(findViewById(R.id.main_view), this);
+        if (useCommaDecimalSeparator) 
+    	{
+        	Button btn = (Button)findViewById(R.id.key_dot);
+        	btn.setText(",");
+        }
         updateStackView();
     }
     
@@ -137,7 +145,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 				addCharToCurrentInput('9');
 				break;
 			case R.id.key_dot:
-				addCharToCurrentInput(dotChar);
+				addCharToCurrentInput(getDotChar());
 				break;
 			case R.id.key_back:
 				back();
@@ -270,7 +278,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 		{
 			res = String.format(Locale.US, "%,.5f", val);
 		}
-		res = res.replace('.', '#').replace(',', '§').replace('#', dotChar).replace('§', thousandChar);
+		res = res.replace('.', '#').replace(',', '§').replace('#', getDotChar()).replace('§', getThousandChar());
 		return res;
 	}
 
@@ -386,5 +394,15 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 			}
 		}
 		
+	}
+
+	private char getDotChar() {
+		if (useCommaDecimalSeparator) return ',';
+		return '.';
+	}
+
+	private char getThousandChar() {
+		if (useCommaDecimalSeparator) return '.';
+		return ',';
 	}
 }

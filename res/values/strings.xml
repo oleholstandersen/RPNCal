@@ -42,5 +42,6 @@
     <string name="opr_asin">asin</string>
     <string name="opr_acos">acos</string>
     <string name="opr_atan">atan</string>
-    <string name="thousand_char">,</string>
+    
+
 </resources>
