@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Button;
 
+import java.util.Locale;
 import java.util.Stack;
 
 import dk.holstandersen.rpncal.operators.*;
@@ -39,10 +40,15 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 	
 	private String latestError = "";
 	
+	private char dotChar = '.';
+	private char thousandChar = ',';
+	
 	private Double getCurrentInputAsDouble() {
 		Double val = 0.0;
 		if (currentInput.length()>0) {
-			val = Double.parseDouble(currentInput);
+			String inp = currentInput;
+			if (dotChar!='.') inp = inp.replace(dotChar, '.');
+			val = Double.parseDouble(inp);
 		}
 		else if (rpnStack.size()>0) {
 			return rpnStack.peek();
@@ -54,9 +60,10 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 		if (Character.isDigit(ch)) {
 			currentInput = currentInput+ch;
 		}
-		else if (ch=='.') {
-			if (!currentInput.contains(".")) currentInput = currentInput+ch;
-			if (currentInput.startsWith(".")) currentInput = "0"+currentInput;
+		else if (ch==dotChar) {
+			String dotString = ""+dotChar;
+			if (!currentInput.contains(dotString)) currentInput = currentInput+ch;
+			if (currentInput.startsWith(dotString)) currentInput = "0"+currentInput;
 		}
 	}
 	
@@ -64,6 +71,8 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dotChar = getText(R.string.key_dot).toString().charAt(0);
+        thousandChar = getText(R.string.thousand_char).toString().charAt(0);
         if (savedInstanceState!=null) {
 	        if (savedInstanceState.containsKey(RPN_STACK_KEY)) {
 	        	double[] stack = savedInstanceState.getDoubleArray(RPN_STACK_KEY);
@@ -128,7 +137,7 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 				addCharToCurrentInput('9');
 				break;
 			case R.id.key_dot:
-				addCharToCurrentInput('.');
+				addCharToCurrentInput(dotChar);
 				break;
 			case R.id.key_back:
 				back();
@@ -256,8 +265,13 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 	
 	private String formatDouble(Double val) {
 		if (val==null) return "";
-		if (val==0.0 || (0.00000000001<Math.abs(val) && Math.abs(val)<10000000000.0)) return String.format("%.5f", val);
-		return String.format("%.5e", val);
+		String res = String.format(Locale.US, "%.5e", val);
+		if (val==0.0 || (0.00000000001<Math.abs(val) && Math.abs(val)<10000000000.0)) 
+		{
+			res = String.format(Locale.US, "%,.5f", val);
+		}
+		res = res.replace('.', '#').replace(',', '§').replace('#', dotChar).replace('§', thousandChar);
+		return res;
 	}
 
 	private void updateStackView() {
