@@ -2,9 +2,15 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:gravity="right|bottom" android:id="@+id/main_view">
-	<TextView 
-		android:id="@+id/stack_text"
-		android:layout_height="@dimen/stack_height" android:textSize="@dimen/stack_textsize"
-		android:hint="0" android:gravity="right|bottom" android:typeface="monospace" android:padding="5dip"/>
+
+	<TextView
+	    android:id="@+id/stack_text"
+	    android:layout_height="@dimen/stack_height"
+	    android:gravity="right|bottom"
+	    android:hint="@string/zero"
+	    android:padding="5dip"
+	    android:textSize="@dimen/stack_textsize"
+	    android:typeface="monospace" />
+
 	<include layout="@layout/keypadtable" android:gravity="right|bottom" android:layout_height="@dimen/keypad_height"></include>
 </TableLayout>

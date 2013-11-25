@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:stretchColumns="*" android:gravity="bottom" android:id="@+id/main_view">
-	<TableRow android:gravity="bottom" android:layout_height="fill_parent">
-		<TextView android:layout_height="fill_parent" android:id="@+id/stack_text"
-			android:layout_width="0dip" android:textSize="@dimen/stack_textsize"
-			android:hint="0" android:gravity="right|bottom" android:typeface="monospace" android:padding="5dip"/>
-		<include layout="@layout/keypadtable" android:layout_height="fill_parent" android:layout_width="@dimen/keypad_width"></include>
-	</TableRow>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:stretchColumns="*" >
+    <TableRow
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        tools:ignore="UselessParent" >
+
+        <TextView
+            android:id="@+id/stack_text"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:gravity="right|bottom"
+            android:hint="@string/zero"
+            android:padding="5dip"
+            android:textSize="@dimen/stack_textsize"
+            android:typeface="monospace" />
+
+        <include
+            android:layout_width="@dimen/keypad_width"
+            android:layout_height="fill_parent"
+            layout="@layout/keypadtable" >
+        </include>
+    </TableRow>
+
 </TableLayout>
