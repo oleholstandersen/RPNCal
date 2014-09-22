@@ -6,27 +6,27 @@
   android:stretchColumns="*" android:id="@+id/operators_view"
   android:textSize="@dimen/operatorkeypad_textsize">
   <TableRow>
-  	<Button android:text="@string/opr_inv" android:id="@+id/key_inv" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_pow" android:id="@+id/key_pow" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_sqrt" android:id="@+id/key_sqrt" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_exp10" android:id="@+id/key_exp10" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<ImageButton android:id="@+id/key_inv" android:src="@drawable/inv" android:contentDescription="@string/opr_inv" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_pow" android:src="@drawable/pow" android:contentDescription="@string/opr_pow" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_sqrt" android:src="@drawable/sqrt" android:contentDescription="@string/opr_sqrt" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_exp10" android:src="@drawable/exp10" android:contentDescription="@string/opr_exp10" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_pi" android:id="@+id/key_pi" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_nroot" android:id="@+id/key_nroot" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_sqr" android:id="@+id/key_sqr" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_log10" android:id="@+id/key_log10" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<ImageButton android:id="@+id/key_pi" android:src="@drawable/pi" android:contentDescription="@string/opr_pi" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_nroot" android:src="@drawable/nroot" android:contentDescription="@string/opr_nroot" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_sqr" android:src="@drawable/sqr" android:contentDescription="@string/opr_sqr" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_log10" android:src="@drawable/log10" android:contentDescription="@string/opr_log10" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_sin" android:id="@+id/key_sin" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_cos" android:id="@+id/key_cos" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_tan" android:id="@+id/key_tan" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_exp" android:id="@+id/key_exp" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<ImageButton android:id="@+id/key_sin" android:src="@drawable/sin" android:contentDescription="@string/opr_sin" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_cos" android:src="@drawable/cos" android:contentDescription="@string/opr_cos" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_tan" android:src="@drawable/tan" android:contentDescription="@string/opr_tan" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_exp" android:src="@drawable/exp" android:contentDescription="@string/opr_exp" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
   </TableRow>
   <TableRow>
-  	<Button android:text="@string/opr_asin" android:id="@+id/key_asin" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_acos" android:id="@+id/key_acos" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_atan" android:id="@+id/key_atan" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
-  	<Button android:text="@string/opr_log" android:id="@+id/key_log" android:width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" android:textSize="@dimen/operatorkeypad_textsize"/>
+  	<ImageButton android:id="@+id/key_asin" android:src="@drawable/asin" android:contentDescription="@string/opr_asin" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_acos" android:src="@drawable/acos" android:contentDescription="@string/opr_acos" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_atan" android:src="@drawable/atan" android:contentDescription="@string/opr_atan" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
+  	<ImageButton android:id="@+id/key_log" android:src="@drawable/log" android:contentDescription="@string/opr_log" android:layout_width="0dip" android:layout_height="@dimen/operatorkeypad_rowheight" />
   </TableRow>
 </TableLayout>

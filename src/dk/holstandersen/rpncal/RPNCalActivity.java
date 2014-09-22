@@ -9,9 +9,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Button;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -40,13 +44,15 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 	
 	private String latestError = "";
 	
-	private boolean useCommaDecimalSeparator = false;
-	
 	private double parseDouble(String input)
 	{
-		if (getDotChar()!='.') input = input.replace(getDotChar(), '.');
-		return Double.parseDouble(input);
-		
+		Number res;
+		try {
+			res = NumberFormat.getNumberInstance().parse(input);
+		} catch (ParseException e) {
+			return 0;
+		}
+		return res.doubleValue();
 	}
 	
 	private double getCurrentInputAsDouble() {
@@ -75,7 +81,6 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        useCommaDecimalSeparator = getResources().getBoolean(R.bool.use_comma_decimal_separator);
         if (savedInstanceState!=null) {
 	        if (savedInstanceState.containsKey(RPN_STACK_KEY)) {
 	        	double[] stack = savedInstanceState.getDoubleArray(RPN_STACK_KEY);
@@ -88,16 +93,16 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
         }
         setContentView(R.layout.main);
         setOnClickListenerOnButtonDecentants(findViewById(R.id.main_view), this);
-        if (useCommaDecimalSeparator) 
-    	{
-        	Button btn = (Button)findViewById(R.id.key_dot);
-        	btn.setText(",");
-        }
+//        if (useCommaDecimalSeparator) 
+//    	{
+//        	Button btn = (Button)findViewById(R.id.key_dot);
+//        	btn.setText(",");
+//        }
         updateStackView();
     }
     
     public static void setOnClickListenerOnButtonDecentants(View v, OnClickListener l) {
-    	if (v instanceof Button) {
+    	if (v instanceof Button || v instanceof ImageButton) {
     		v.setOnClickListener(l);
     	}
     	else if (v instanceof ViewGroup) {
@@ -397,12 +402,12 @@ public class RPNCalActivity extends Activity implements OnClickListener, OnDismi
 	}
 
 	private char getDotChar() {
-		if (useCommaDecimalSeparator) return ',';
-		return '.';
+		DecimalFormat df = (DecimalFormat) DecimalFormat.getNumberInstance();
+		return df.getDecimalFormatSymbols().getDecimalSeparator();
 	}
 
 	private char getThousandChar() {
-		if (useCommaDecimalSeparator) return '.';
-		return ',';
+		DecimalFormat df = (DecimalFormat) DecimalFormat.getNumberInstance();
+		return df.getDecimalFormatSymbols().getGroupingSeparator();
 	}
 }

@@ -15,7 +15,6 @@
     <string name="key_enter">Enter</string>
     <string name="key_back">←</string>
     <string name="key_more">More</string>
-    <string name="opr_dialog_title">More operators...</string>
     <string name="app_name">RPNCal</string>
     <string name="msg_too_few_args">Too few arguments</string>
     <string name="msg_div_by_zero">Division by zero</string>

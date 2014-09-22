@@ -12,5 +12,5 @@
 	    android:textSize="@dimen/stack_textsize"
 	    android:typeface="monospace" />
 
-	<include layout="@layout/keypadtable" android:gravity="right|bottom" android:layout_height="@dimen/keypad_height"></include>
+	<include layout="@layout/keypadtable" android:gravity="right|bottom" android:layout_height="@dimen/keypad_height" android:layout_width="@dimen/keypad_width"></include>
 </TableLayout>
