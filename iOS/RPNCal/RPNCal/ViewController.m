@@ -23,5 +23,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)b0TouchDown:(id)sender {
+}
 
 @end
