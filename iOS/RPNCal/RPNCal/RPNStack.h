@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RPNStack : NSObject
+@interface RPNStack : NSObject {
+    NSMutableArray* stack;
+}
 
+-(id)init;
 -(NSNumber*)pop;
--(int)stackHeight;
+-(int)height;
 -(NSNumber*)getAtIndex:(int)index;
 -(void)push:(NSNumber*)number;
 

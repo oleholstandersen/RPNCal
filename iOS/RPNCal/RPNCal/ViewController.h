@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RPNStack.h"
 
-@interface ViewController : UIViewController
-
+@interface ViewController : UIViewController {
+    RPNStack* stack;
+    NSString* enteredValue;
+    __weak IBOutlet UILabel *inputLabel;
+}
+- (id) init;
 
 @end
 

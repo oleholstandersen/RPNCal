@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "../RPNCal/RPNStack.h"
 
 @interface RPNCalTests : XCTestCase
 
@@ -25,16 +26,19 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testPush {
+    RPNStack* stack = [[RPNStack alloc] init];
+    [stack push:@0];
     // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    XCTAssert([stack height]==1, @"Pass");
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testPop {
+    RPNStack* stack = [[RPNStack alloc] init];
+    [stack push:@1];
+    // This is an example of a functional test case.
+    XCTAssert([[stack pop] isEqualToNumber:@1], @"Pass");
+    
 }
 
 @end

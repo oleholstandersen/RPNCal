@@ -10,27 +10,37 @@
 
 @implementation RPNStack
 
-int stackHeight() {
-    return 0;
+-(id) init{
+    if (self = [super init]) {
+        stack = [[NSMutableArray alloc] init];
+        return self;
+    }
+    else{
+        return nil;
+    }
 }
 
 -(NSNumber*)pop{
-    if (stackHeight()>0) {
-        return @0.0;
+    NSNumber* result = nil;
+    if ([self height]>0) {
+        result = [stack objectAtIndex:0];
+        [stack removeObjectAtIndex:0];
     }
-    return @-1.0;
+    return result;
 }
--(int)stackHeight{
-    return stackHeight();
+
+-(int)height{
+    return [stack count];
 }
 -(NSNumber*)getAtIndex:(int)index{
-    if (index<0 || stackHeight()<index){
-        return @-1.0;
+    if (index<0 || [self height]<index){
+        return [stack objectAtIndex:index];
     }
-    return @0.0;
+    return nil;
 }
 
 -(void)push:(NSNumber*)number{
+    [stack insertObject:number atIndex:0];
 }
 
 @end

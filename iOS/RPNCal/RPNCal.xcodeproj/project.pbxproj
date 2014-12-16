@@ -14,6 +14,7 @@
 		EE6AEABC1A33436B0036E0B2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6AEABB1A33436B0036E0B2 /* Images.xcassets */; };
 		EE6AEABF1A33436B0036E0B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE6AEABD1A33436B0036E0B2 /* LaunchScreen.xib */; };
 		EE6AEACB1A33436B0036E0B2 /* RPNCalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6AEACA1A33436B0036E0B2 /* RPNCalTests.m */; };
+		EEAD75F51A350142000BF1F9 /* RPNStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAD75F41A350142000BF1F9 /* RPNStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		EE6AEAC41A33436B0036E0B2 /* RPNCalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RPNCalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6AEAC91A33436B0036E0B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE6AEACA1A33436B0036E0B2 /* RPNCalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPNCalTests.m; sourceTree = "<group>"; };
+		EEAD75F31A350142000BF1F9 /* RPNStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPNStack.h; sourceTree = "<group>"; };
+		EEAD75F41A350142000BF1F9 /* RPNStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPNStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 		EE6AEAAD1A33436B0036E0B2 /* RPNCal */ = {
 			isa = PBXGroup;
 			children = (
+				EEAD75F31A350142000BF1F9 /* RPNStack.h */,
+				EEAD75F41A350142000BF1F9 /* RPNStack.m */,
 				EE6AEAB21A33436B0036E0B2 /* AppDelegate.h */,
 				EE6AEAB31A33436B0036E0B2 /* AppDelegate.m */,
 				EE6AEAB51A33436B0036E0B2 /* ViewController.h */,
@@ -222,6 +227,7 @@
 				EE6AEAB71A33436B0036E0B2 /* ViewController.m in Sources */,
 				EE6AEAB41A33436B0036E0B2 /* AppDelegate.m in Sources */,
 				EE6AEAB11A33436B0036E0B2 /* main.m in Sources */,
+				EEAD75F51A350142000BF1F9 /* RPNStack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +420,7 @@
 				EE6AEAD01A33436B0036E0B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EE6AEAD11A33436B0036E0B2 /* Build configuration list for PBXNativeTarget "RPNCalTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +429,7 @@
 				EE6AEAD31A33436B0036E0B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
