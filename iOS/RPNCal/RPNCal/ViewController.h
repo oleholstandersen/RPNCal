@@ -13,8 +13,8 @@
     RPNStack* stack;
     NSString* enteredValue;
     __weak IBOutlet UILabel *inputLabel;
+    __weak IBOutlet UILabel *stackLabel;
 }
-- (id) init;
 
 @end
 

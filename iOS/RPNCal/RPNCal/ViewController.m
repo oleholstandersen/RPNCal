@@ -13,14 +13,26 @@
 @end
 
 @implementation ViewController
-
-- (id) init {
-    if (self = [super init]) {
-        stack = [[RPNStack alloc] init];
-        enteredValue = @"";
-        return self;
+- (NSNumber*) enteredNumber {
+    if ([enteredValue length]==0 || [enteredValue isEqualToString:@"-"]) {
+        return nil;
     }
-    return nil;
+    NSNumberFormatter* fmtr = [[NSNumberFormatter alloc] init];
+    return [fmtr numberFromString:enteredValue];
+}
+
+- (void)updateView {
+    inputLabel.text = [enteredValue stringByAppendingString:@"<"];
+    NSString* t = @"";
+    for (int i = [stack height]-1; i >= 0; i--) {
+        NSNumber* n = [stack getAtIndex:i];
+        t = [t stringByAppendingString:[n stringValue]];
+        if (i > 0) {
+            t = [t stringByAppendingString:@"\n"];
+        }
+    }
+    stackLabel.text = t;
+    [stackLabel sizeToFit];
 }
 
 - (void)addCharToInput:(unichar)input {
@@ -29,7 +41,7 @@
     if ([validChars containsString:charString]) {
         enteredValue = [enteredValue stringByAppendingString:charString];
     }
-    inputLabel.text = enteredValue;
+    [self updateView];
 }
 
 - (void)viewDidLoad {
@@ -37,11 +49,39 @@
     if (enteredValue==nil) {
         enteredValue = @"";
     }
+    if (stack==nil) {
+        stack = [[RPNStack alloc] init];
+    }
+    [self updateView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)enterTouchDown:(id)sender {
+    NSNumber* n = [self enteredNumber];
+    if (n != nil) {
+        [stack push:n];
+    }
+    else if ([stack height]>0) {
+        [stack push:[[stack getAtIndex:0] copy]];
+    }
+    else {
+        [stack push:@0];
+    }
+    enteredValue = @"";
+    [self updateView];
+}
+- (IBAction)delTouchDown:(id)sender {
+    int len = [enteredValue length];
+    if (len>0) {
+        enteredValue = [enteredValue substringToIndex:(len-1)];
+    }
+    else if ([stack height]>0) {
+        [stack pop];
+    }
+    [self updateView];
 }
 - (IBAction)decPointTouchDown:(id)sender {
     if (![enteredValue containsString:@"."]) {
@@ -55,7 +95,7 @@
     else {
         enteredValue = [@"-" stringByAppendingString:enteredValue];
     }
-    inputLabel.text = enteredValue;
+    [self updateView];
 }
 - (IBAction)b0TouchDown:(id)sender {
     [self addCharToInput:'0'];

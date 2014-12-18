@@ -33,7 +33,7 @@
     return [stack count];
 }
 -(NSNumber*)getAtIndex:(int)index{
-    if (index<0 || [self height]<index){
+    if (0<=index || index<[self height]){
         return [stack objectAtIndex:index];
     }
     return nil;
