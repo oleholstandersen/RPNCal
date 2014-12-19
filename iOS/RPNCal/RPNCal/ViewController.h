@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "RPNStack.h"
 
+typedef  float(^NullaryOperation)();
+typedef  float(^UnaryOperation)(float opr1);
+typedef  float(^BinaryOperation)(float opr1, float opr2);
+
 @interface ViewController : UIViewController {
     RPNStack* stack;
     NSString* enteredValue;

@@ -20,6 +20,20 @@
     NSNumberFormatter* fmtr = [[NSNumberFormatter alloc] init];
     return [fmtr numberFromString:enteredValue];
 }
+-(void)performBinaryOperation:(BinaryOperation)operation {
+    NSNumber* n = [self enteredNumber];
+    if (n != nil) {
+        [stack push:n];
+        enteredValue = @"";
+    }
+    if ([stack height]>1) {
+        NSNumber* opr2 = [stack pop];
+        NSNumber* opr1 = [stack pop];
+        NSNumber* result = [NSNumber numberWithFloat:operation([opr1 floatValue], [opr2 floatValue])];
+        [stack push:result];
+    }
+    [self updateView];
+}
 
 - (void)updateView {
     inputLabel.text = [enteredValue stringByAppendingString:@"<"];
@@ -126,6 +140,18 @@
 }
 - (IBAction)b9TouchDown:(id)sender {
     [self addCharToInput:'9'];
+}
+- (IBAction)addTouchDown:(id)sender {
+    BinaryOperation addOpr = ^float(float opr1, float opr2) {
+        return opr1+opr2;
+    };
+    [self performBinaryOperation:addOpr];
+}
+- (IBAction)subTouchDown:(id)sender {
+}
+- (IBAction)mulTouchDown:(id)sender {
+}
+- (IBAction)divTouchDown:(id)sender {
 }
 
 @end
