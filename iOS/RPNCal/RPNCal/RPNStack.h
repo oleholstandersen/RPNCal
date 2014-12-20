@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class RPNStack;
+
 @interface RPNStack : NSObject {
     NSMutableArray* stack;
 }
