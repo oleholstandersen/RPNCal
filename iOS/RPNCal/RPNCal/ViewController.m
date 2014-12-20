@@ -148,10 +148,22 @@
     [self performBinaryOperation:addOpr];
 }
 - (IBAction)subTouchDown:(id)sender {
+    BinaryOperation addOpr = ^float(float opr1, float opr2) {
+        return opr1-opr2;
+    };
+    [self performBinaryOperation:addOpr];
 }
 - (IBAction)mulTouchDown:(id)sender {
+    BinaryOperation addOpr = ^float(float opr1, float opr2) {
+        return opr1*opr2;
+    };
+    [self performBinaryOperation:addOpr];
 }
 - (IBAction)divTouchDown:(id)sender {
+    BinaryOperation addOpr = ^float(float opr1, float opr2) {
+        return opr1/opr2;
+    };
+    [self performBinaryOperation:addOpr];
 }
 
 @end
