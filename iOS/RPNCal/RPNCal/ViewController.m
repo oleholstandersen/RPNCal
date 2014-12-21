@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <math.h>
 
 @interface ViewController ()
 
@@ -20,6 +21,29 @@
     NSNumberFormatter* fmtr = [[NSNumberFormatter alloc] init];
     return [fmtr numberFromString:enteredValue];
 }
+
+-(void)performNullaryOperation:(NullaryOperation)operation {
+    NSNumber* n = [self enteredNumber];
+    if (n != nil) {
+        [stack push:n];
+        enteredValue = @"";
+    }
+    [stack push:[NSNumber numberWithFloat:operation()]];
+}
+
+-(void)performUnaryOperation:(UnaryOperation)operation {
+    NSNumber* n = [self enteredNumber];
+    if (n != nil) {
+        [stack push:n];
+        enteredValue = @"";
+    }
+    if ([stack height]>0) {
+        NSNumber* opr1 = [stack pop];
+        NSNumber* result = [NSNumber numberWithFloat:operation([opr1 floatValue])];
+        [stack push:result];
+    }
+}
+
 -(void)performBinaryOperation:(BinaryOperation)operation {
     NSNumber* n = [self enteredNumber];
     if (n != nil) {
@@ -32,13 +56,32 @@
         NSNumber* result = [NSNumber numberWithFloat:operation([opr1 floatValue], [opr2 floatValue])];
         [stack push:result];
     }
-    [self updateView];
+}
+
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+    CGFloat h = mainView.bounds.size.height;
+    CGFloat w = mainView.bounds.size.width;
+    if (h>w) {
+        //portrait
+        displayBottomToBottom.constant = h/2;
+        displayRightToRight.constant = 0.0;
+        keypadTopToTop.constant = h/2;
+        keypadLeftToLeft.constant = 0.0;
+    }
+    else {
+        //landscape
+        displayBottomToBottom.constant = 0.0;
+        displayRightToRight.constant = w/2;
+        keypadTopToTop.constant = 0.0;
+        keypadLeftToLeft.constant = w/2;
+    }
 }
 
 - (void)updateView {
-    inputLabel.text = [enteredValue stringByAppendingString:@"<"];
+    enteredValueLabel.text = [enteredValue stringByAppendingString:@"<"];
     NSString* t = @"";
-    for (int i = [stack height]-1; i >= 0; i--) {
+    for (NSInteger i = [stack height]-1; i >= 0; i--) {
         NSNumber* n = [stack getAtIndex:i];
         t = [t stringByAppendingString:[n stringValue]];
         if (i > 0) {
@@ -46,7 +89,9 @@
         }
     }
     stackLabel.text = t;
-    [stackLabel sizeToFit];
+    CGRect slFrame = stackLabel.frame;
+    slFrame.size.height = [stackLabel sizeThatFits:slFrame.size].height;
+    stackLabel.frame = slFrame;
 }
 
 - (void)addCharToInput:(unichar)input {
@@ -55,7 +100,6 @@
     if ([validChars containsString:charString]) {
         enteredValue = [enteredValue stringByAppendingString:charString];
     }
-    [self updateView];
 }
 
 - (void)viewDidLoad {
@@ -66,6 +110,16 @@
     if (stack==nil) {
         stack = [[RPNStack alloc] init];
     }
+    keypadView.delegate = self;
+    CGFloat h = mainView.bounds.size.height;
+    CGFloat w = mainView.bounds.size.width;
+    CGFloat fontSize = 20.0*w/320;
+    if (h<w) {
+        fontSize = fontSize/2;
+    }
+    [keypadView setFontSize:fontSize];
+    enteredValueLabel.font = [enteredValueLabel.font fontWithSize:fontSize];
+    stackLabel.font = [stackLabel.font fontWithSize:fontSize];
     [self updateView];
 }
 
@@ -73,97 +127,132 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)enterTouchDown:(id)sender {
-    NSNumber* n = [self enteredNumber];
-    if (n != nil) {
-        [stack push:n];
+
+- (void)keypadView:(KeypadView *)keypadView keyWasPressed:(KeypadKey)keyId {
+    switch (keyId) {
+        case k0:
+            [self addCharToInput:'0'];
+            break;
+        case k1:
+            [self addCharToInput:'1'];
+            break;
+        case k2:
+            [self addCharToInput:'2'];
+            break;
+        case k3:
+            [self addCharToInput:'3'];
+            break;
+        case k4:
+            [self addCharToInput:'4'];
+            break;
+        case k5:
+            [self addCharToInput:'5'];
+            break;
+        case k6:
+            [self addCharToInput:'6'];
+            break;
+        case k7:
+            [self addCharToInput:'7'];
+            break;
+        case k8:
+            [self addCharToInput:'8'];
+            break;
+        case k9:
+            [self addCharToInput:'9'];
+            break;
+        case kDecPoint:
+            if (![enteredValue containsString:@"."]) {
+                [self addCharToInput:'.'];
+            }
+            break;
+        case kEnter:
+        {
+            NSNumber* n = [self enteredNumber];
+            if (n != nil) {
+                [stack push:n];
+            }
+            else if ([stack height]>0) {
+                [stack push:[[stack getAtIndex:0] copy]];
+            }
+            else {
+                
+                [stack push:@0];
+            }
+            enteredValue = @"";
+        }
+            break;
+        case kNeg:
+            if ([enteredValue hasPrefix:@"-"]) {
+                enteredValue = [enteredValue substringFromIndex:1];
+            }
+            else {
+                enteredValue = [@"-" stringByAppendingString:enteredValue];
+            }
+            [self updateView];
+            break;
+        case kDel:
+        {
+            NSUInteger len = [enteredValue length];
+            if (len>0) {
+                enteredValue = [enteredValue substringToIndex:(len-1)];
+            }
+            else if ([stack height]>0) {
+                [stack pop];
+            }
+        }
+            break;
+        case kAdd:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return opr1+opr2;
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kSub:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return opr1-opr2;
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kMul:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return opr1*opr2;
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kDiv:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return opr1/opr2;
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kInv:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return 1.0/opr1;
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kPi:
+        {
+            NullaryOperation opr = ^float(void) {
+                return M_PI;
+            };
+            [self performNullaryOperation:opr];
+        }
+        case kNone:
+            //Do nothing
+            break;
     }
-    else if ([stack height]>0) {
-        [stack push:[[stack getAtIndex:0] copy]];
-    }
-    else {
-        [stack push:@0];
-    }
-    enteredValue = @"";
     [self updateView];
-}
-- (IBAction)delTouchDown:(id)sender {
-    int len = [enteredValue length];
-    if (len>0) {
-        enteredValue = [enteredValue substringToIndex:(len-1)];
-    }
-    else if ([stack height]>0) {
-        [stack pop];
-    }
-    [self updateView];
-}
-- (IBAction)decPointTouchDown:(id)sender {
-    if (![enteredValue containsString:@"."]) {
-        [self addCharToInput:'.'];
-    }
-}
-- (IBAction)negTouchDown:(id)sender {
-    if ([enteredValue hasPrefix:@"-"]) {
-        enteredValue = [enteredValue substringFromIndex:1];
-    }
-    else {
-        enteredValue = [@"-" stringByAppendingString:enteredValue];
-    }
-    [self updateView];
-}
-- (IBAction)b0TouchDown:(id)sender {
-    [self addCharToInput:'0'];
-}
-- (IBAction)b1TouchDown:(id)sender {
-    [self addCharToInput:'1'];
-}
-- (IBAction)b2TouchDown:(id)sender {
-    [self addCharToInput:'2'];
-}
-- (IBAction)b3TouchDown:(id)sender {
-    [self addCharToInput:'3'];
-}
-- (IBAction)b4TouchDown:(id)sender {
-    [self addCharToInput:'4'];
-}
-- (IBAction)b5TouchDown:(id)sender {
-    [self addCharToInput:'5'];
-}
-- (IBAction)b6TouchDown:(id)sender {
-    [self addCharToInput:'6'];
-}
-- (IBAction)b7TouchDown:(id)sender {
-    [self addCharToInput:'7'];
-}
-- (IBAction)b8TouchDown:(id)sender {
-    [self addCharToInput:'8'];
-}
-- (IBAction)b9TouchDown:(id)sender {
-    [self addCharToInput:'9'];
-}
-- (IBAction)addTouchDown:(id)sender {
-    BinaryOperation addOpr = ^float(float opr1, float opr2) {
-        return opr1+opr2;
-    };
-    [self performBinaryOperation:addOpr];
-}
-- (IBAction)subTouchDown:(id)sender {
-    BinaryOperation addOpr = ^float(float opr1, float opr2) {
-        return opr1-opr2;
-    };
-    [self performBinaryOperation:addOpr];
-}
-- (IBAction)mulTouchDown:(id)sender {
-    BinaryOperation addOpr = ^float(float opr1, float opr2) {
-        return opr1*opr2;
-    };
-    [self performBinaryOperation:addOpr];
-}
-- (IBAction)divTouchDown:(id)sender {
-    BinaryOperation addOpr = ^float(float opr1, float opr2) {
-        return opr1/opr2;
-    };
-    [self performBinaryOperation:addOpr];
 }
 
 @end

@@ -29,11 +29,11 @@
     return result;
 }
 
--(int)height{
+-(NSUInteger)height{
     return [stack count];
 }
--(NSNumber*)getAtIndex:(int)index{
-    if (0<=index || index<[self height]){
+-(NSNumber*)getAtIndex:(NSUInteger)index{
+    if (index<[self height]){
         return [stack objectAtIndex:index];
     }
     return nil;

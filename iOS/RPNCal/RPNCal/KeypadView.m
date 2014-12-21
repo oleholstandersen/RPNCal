@@ -14,13 +14,24 @@ NSString * getDecimalSeparator() {
     return [[NSLocale currentLocale] objectForKey:NSLocaleDecimalSeparator];
 }
 
+- (void)setFontSize:(CGFloat)size {
+    moreButton.titleLabel.font = [moreButton.titleLabel.font fontWithSize:size];
+    for (NSUInteger i = kFirstKey; i <= kLastKey; i++) {
+        UIButton *b = [self getButton:i];
+        if (b != nil) {
+            b.titleLabel.font = [b.titleLabel.font fontWithSize:size];
+        }
+    }
+    
+}
+
 - (void)baseInit {
     rows = 5;
     cols = 4;
     marginFactor = 0.1;
     moreKeysShown = FALSE;
     keyButtons = [[NSMutableDictionary alloc] initWithCapacity:kLastKey+1];
-    for (NSUInteger i = 0; i <= kLastKey; i++) {
+    for (NSUInteger i = kFirstKey; i <= kLastKey; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
         [button addTarget:self action:@selector(keyClickAction:) forControlEvents:UIControlEventTouchDown];
         [keyButtons setObject:button forKey:[NSNumber numberWithUnsignedInteger:i]];
@@ -43,10 +54,13 @@ NSString * getDecimalSeparator() {
     [[self getButton:kSub] setTitle:@"−" forState:UIControlStateNormal];
     [[self getButton:kMul] setTitle:@"×" forState:UIControlStateNormal];
     [[self getButton:kDiv] setTitle:@"÷" forState:UIControlStateNormal];
+    [[self getButton:kInv] setTitle:@"1/x" forState:UIControlStateNormal];
+    [[self getButton:kPi] setTitle:@"π" forState:UIControlStateNormal];
     moreButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [moreButton setTitle:@"MORE" forState:UIControlStateNormal];
-    [moreButton setTitle:@"LESS" forState:UIControlStateSelected];
+    [moreButton setTitle:@"⬆︎" forState:UIControlStateNormal];
+    [moreButton setTitle:@"⬇︎" forState:UIControlStateSelected];
     [moreButton addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchDown];
+    [self updateSubviews];
     _delegate = nil;
 }
 
@@ -82,25 +96,27 @@ NSString * getDecimalSeparator() {
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [[self getButton:kEnter] setBounds:[self getButtonBounds:0:0:1:2]];
-    [[self getButton:kDel] setBounds:[self getButtonBounds:0:2]];
-    [[self getButton:k7] setBounds:[self getButtonBounds:1:0]];
-    [[self getButton:k8] setBounds:[self getButtonBounds:1:1]];
-    [[self getButton:k9] setBounds:[self getButtonBounds:1:2]];
-    [[self getButton:kDiv] setBounds:[self getButtonBounds:1:3]];
-    [[self getButton:k4] setBounds:[self getButtonBounds:2:0]];
-    [[self getButton:k5] setBounds:[self getButtonBounds:2:1]];
-    [[self getButton:k6] setBounds:[self getButtonBounds:2:2]];
-    [[self getButton:kMul] setBounds:[self getButtonBounds:2:3]];
-    [[self getButton:k1] setBounds:[self getButtonBounds:3:0]];
-    [[self getButton:k2] setBounds:[self getButtonBounds:3:1]];
-    [[self getButton:k3] setBounds:[self getButtonBounds:3:2]];
-    [[self getButton:kSub] setBounds:[self getButtonBounds:3:3]];
-    [[self getButton:k0] setBounds:[self getButtonBounds:4:0]];
-    [[self getButton:kDecPoint] setBounds:[self getButtonBounds:4:0]];
-    [[self getButton:kNeg] setBounds:[self getButtonBounds:4:0]];
-    [[self getButton:kAdd] setBounds:[self getButtonBounds:4:0]];
-    [[self getButton:kInv] setBounds:[self getButtonBounds:1:0]];
+    [[self getButton:kEnter] setFrame:[self getButtonFrame:0:0:1:2]];
+    [[self getButton:kDel] setFrame:[self getButtonBounds:0:2]];
+    [[self getButton:k7] setFrame:[self getButtonBounds:1:0]];
+    [[self getButton:k8] setFrame:[self getButtonBounds:1:1]];
+    [[self getButton:k9] setFrame:[self getButtonBounds:1:2]];
+    [[self getButton:kDiv] setFrame:[self getButtonBounds:1:3]];
+    [[self getButton:k4] setFrame:[self getButtonBounds:2:0]];
+    [[self getButton:k5] setFrame:[self getButtonBounds:2:1]];
+    [[self getButton:k6] setFrame:[self getButtonBounds:2:2]];
+    [[self getButton:kMul] setFrame:[self getButtonBounds:2:3]];
+    [[self getButton:k1] setFrame:[self getButtonBounds:3:0]];
+    [[self getButton:k2] setFrame:[self getButtonBounds:3:1]];
+    [[self getButton:k3] setFrame:[self getButtonBounds:3:2]];
+    [[self getButton:kSub] setFrame:[self getButtonBounds:3:3]];
+    [[self getButton:k0] setFrame:[self getButtonBounds:4:0]];
+    [[self getButton:kDecPoint] setFrame:[self getButtonBounds:4:1]];
+    [[self getButton:kNeg] setFrame:[self getButtonBounds:4:2]];
+    [[self getButton:kAdd] setFrame:[self getButtonBounds:4:3]];
+    [[self getButton:kInv] setFrame:[self getButtonBounds:1:0]];
+    [[self getButton:kPi] setFrame:[self getButtonBounds:1:1]];
+    [moreButton setFrame:[self getButtonBounds:0:3]];
 }
 
 - (void)updateSubviews {
@@ -108,14 +124,6 @@ NSString * getDecimalSeparator() {
         [v removeFromSuperview];
     }
     if (moreKeysShown) {
-        for (int i = 0; i < kFirstMoreKey; i++) {
-            UIButton *b = [self getButton:i];
-            if (b != nil) {
-                [self addSubview:b];
-            }
-        }
-    }
-    else {
         for (int i = kFirstMoreKey; i <= kLastKey; i++) {
             UIButton *b = [self getButton:i];
             if (b != nil) {
@@ -123,6 +131,17 @@ NSString * getDecimalSeparator() {
             }
         }
     }
+    else {
+        for (int i = kFirstKey; i < kFirstMoreKey; i++) {
+            UIButton *b = [self getButton:i];
+            if (b != nil) {
+                [self addSubview:b];
+            }
+        }
+    }
+    [self addSubview:moreButton];
+    [self setNeedsLayout];
+    [self refresh];
 }
 
 - (void)moreAction {
@@ -145,7 +164,8 @@ NSString * getDecimalSeparator() {
 }
 
 - (UIButton*)getButton:(KeypadKey)key {
-    return [keyButtons objectForKey:[NSNumber numberWithUnsignedInteger:key]];
+    UIButton *result = [keyButtons objectForKey:[NSNumber numberWithUnsignedInteger:key]];
+    return result;
 }
 
 - (CGFloat)getButtonHeight {
@@ -165,10 +185,10 @@ NSString * getDecimalSeparator() {
 }
 
 - (CGRect)getButtonBounds:(NSUInteger)row :(NSUInteger)col {
-    return [self getButtonBounds:row :col :1 :1];
+    return [self getButtonFrame:row :col :1 :1];
 }
 
-- (CGRect)getButtonBounds:(NSUInteger)row :(NSUInteger)col :(NSUInteger)rowSpan :(NSUInteger)colSpan {
+- (CGRect)getButtonFrame:(NSUInteger)row :(NSUInteger)col :(NSUInteger)rowSpan :(NSUInteger)colSpan {
     CGFloat vm = [self getVerticalButtonMargin];
     CGFloat hm = [self getHorizontalButtonMargin];
     CGFloat bh = [self getButtonHeight];

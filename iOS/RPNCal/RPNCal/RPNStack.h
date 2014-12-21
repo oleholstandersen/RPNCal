@@ -17,8 +17,8 @@
 
 -(id)init;
 -(NSNumber*)pop;
--(int)height;
--(NSNumber*)getAtIndex:(int)index;
+-(NSUInteger)height;
+-(NSNumber*)getAtIndex:(NSUInteger)index;
 -(void)push:(NSNumber*)number;
 
 @end

@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, KeypadKey) {
     kNone = 0,
     k0,
+    kFirstKey = k0,
     k1,
     k2,
     k3,
@@ -30,7 +31,8 @@ typedef NS_ENUM(NSUInteger, KeypadKey) {
     kDiv,
     kInv,
     kFirstMoreKey = kInv,
-    kLastKey = kInv
+    kPi,
+    kLastKey = kPi
 };
 
 @class KeypadView;
@@ -38,6 +40,8 @@ typedef NS_ENUM(NSUInteger, KeypadKey) {
 @protocol KeyPressedDelegate
 - (void)keypadView:(KeypadView *)keypadView keyWasPressed:(KeypadKey)keyId;
 @end
+
+IB_DESIGNABLE
 
 @interface KeypadView : UIView {
     NSUInteger rows;
@@ -50,5 +54,6 @@ typedef NS_ENUM(NSUInteger, KeypadKey) {
 
 @property (strong) NSLocale *currentLocale;
 @property (assign) id <KeyPressedDelegate> delegate;
+- (void)setFontSize:(CGFloat)size;
 
 @end
