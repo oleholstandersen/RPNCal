@@ -31,8 +31,22 @@ typedef NS_ENUM(NSUInteger, KeypadKey) {
     kDiv,
     kInv,
     kFirstMoreKey = kInv,
+    kPow,
+    kSqrt,
+    kExp10,
     kPi,
-    kLastKey = kPi
+    kXRoot,
+    kSqr,
+    kLog10,
+    kSin,
+    kCos,
+    kTan,
+    kExp,
+    kASin,
+    kACos,
+    kATan,
+    kLog,
+    kLastKey = kLog
 };
 
 @class KeypadView;
@@ -50,6 +64,7 @@ IB_DESIGNABLE
     BOOL moreKeysShown;
     NSMutableDictionary *keyButtons;
     UIButton *moreButton;
+    CGFloat fontSize;
 }
 
 @property (strong) NSLocale *currentLocale;

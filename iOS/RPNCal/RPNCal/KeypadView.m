@@ -15,27 +15,18 @@ NSString * getDecimalSeparator() {
 }
 
 - (void)setFontSize:(CGFloat)size {
+    fontSize = size;
     moreButton.titleLabel.font = [moreButton.titleLabel.font fontWithSize:size];
     for (NSUInteger i = kFirstKey; i <= kLastKey; i++) {
         UIButton *b = [self getButton:i];
         if (b != nil) {
-            b.titleLabel.font = [b.titleLabel.font fontWithSize:size];
+            b.titleLabel.font = [b.titleLabel.font fontWithSize:fontSize];
         }
     }
-    
+    [self setButtonTitles];
 }
 
-- (void)baseInit {
-    rows = 5;
-    cols = 4;
-    marginFactor = 0.1;
-    moreKeysShown = FALSE;
-    keyButtons = [[NSMutableDictionary alloc] initWithCapacity:kLastKey+1];
-    for (NSUInteger i = kFirstKey; i <= kLastKey; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-        [button addTarget:self action:@selector(keyClickAction:) forControlEvents:UIControlEventTouchDown];
-        [keyButtons setObject:button forKey:[NSNumber numberWithUnsignedInteger:i]];
-    }
+- (void)setButtonTitles {
     [[self getButton:k0] setTitle:@"0" forState:UIControlStateNormal];
     [[self getButton:k1] setTitle:@"1" forState:UIControlStateNormal];
     [[self getButton:k2] setTitle:@"2" forState:UIControlStateNormal];
@@ -54,12 +45,65 @@ NSString * getDecimalSeparator() {
     [[self getButton:kSub] setTitle:@"−" forState:UIControlStateNormal];
     [[self getButton:kMul] setTitle:@"×" forState:UIControlStateNormal];
     [[self getButton:kDiv] setTitle:@"÷" forState:UIControlStateNormal];
-    [[self getButton:kInv] setTitle:@"1/x" forState:UIControlStateNormal];
+    UIFont *fnt = [moreButton.titleLabel.font fontWithSize:fontSize];
+    NSMutableAttributedString *attrStr;
+    NSDictionary * attributes;
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"1/x" attributes: @{NSFontAttributeName : fnt}];
+    attributes = @{NSFontAttributeName : [fnt fontWithSize:0.9*fontSize],
+                   NSBaselineOffsetAttributeName : [NSNumber numberWithFloat:0.3*fontSize] };
+    [attrStr setAttributes:attributes range:NSMakeRange(0, 1)];
+    attributes = @{NSBaselineOffsetAttributeName : [NSNumber numberWithFloat:0.1*fontSize] };
+    [attrStr setAttributes:attributes range:NSMakeRange(1, 1)];
+    attributes = @{NSFontAttributeName : [fnt fontWithSize:0.9*fontSize]};
+    [attrStr setAttributes:attributes range:NSMakeRange(2, 1)];
+    [[self getButton:kInv] setAttributedTitle:attrStr forState:UIControlStateNormal];
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"xy"];
+    attributes = @{NSFontAttributeName:[fnt fontWithSize:0.75*fontSize],
+                   NSBaselineOffsetAttributeName:[NSNumber numberWithFloat:0.4*fontSize]};
+    [attrStr setAttributes:attributes range:NSMakeRange(1,1)];
+    [[self getButton:kPow] setAttributedTitle:attrStr forState:UIControlStateNormal];
+    [[self getButton:kSqrt] setTitle:@"√x" forState:UIControlStateNormal];
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"10x"];
+    [attrStr setAttributes:attributes range:NSMakeRange(2,1)];
+    [[self getButton:kExp10] setAttributedTitle:attrStr forState:UIControlStateNormal];
     [[self getButton:kPi] setTitle:@"π" forState:UIControlStateNormal];
-    moreButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"x√y"];
+    [attrStr setAttributes:attributes range:NSMakeRange(0,1)];
+    [attrStr addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:0.15*fontSize] range:NSMakeRange(1, 2)];
+    [[self getButton:kXRoot] setAttributedTitle:attrStr forState:UIControlStateNormal];
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"x2"];
+    [attrStr setAttributes:attributes range:NSMakeRange(1,1)];
+    [[self getButton:kSqr] setAttributedTitle:attrStr forState:UIControlStateNormal];
+    [[self getButton:kLog10] setTitle:@"LOG" forState:UIControlStateNormal];
+    [[self getButton:kSin] setTitle:@"SIN" forState:UIControlStateNormal];
+    [[self getButton:kCos] setTitle:@"COS" forState:UIControlStateNormal];
+    [[self getButton:kTan] setTitle:@"TAN" forState:UIControlStateNormal];
+    attrStr = [[NSMutableAttributedString alloc] initWithString:@"ex"];
+    [attrStr setAttributes:attributes range:NSMakeRange(1,1)];
+    [[self getButton:kExp] setAttributedTitle:attrStr forState:UIControlStateNormal];
+    [[self getButton:kASin] setTitle:@"ASIN" forState:UIControlStateNormal];
+    [[self getButton:kACos] setTitle:@"ACOS" forState:UIControlStateNormal];
+    [[self getButton:kATan] setTitle:@"ATAN" forState:UIControlStateNormal];
+    [[self getButton:kLog] setTitle:@"LN" forState:UIControlStateNormal];
     [moreButton setTitle:@"⬆︎" forState:UIControlStateNormal];
     [moreButton setTitle:@"⬇︎" forState:UIControlStateSelected];
+
+}
+
+- (void)baseInit {
+    rows = 5;
+    cols = 4;
+    marginFactor = 0.1;
+    moreKeysShown = FALSE;
+    keyButtons = [[NSMutableDictionary alloc] initWithCapacity:kLastKey+1];
+    for (NSUInteger i = kFirstKey; i <= kLastKey; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        [button addTarget:self action:@selector(keyClickAction:) forControlEvents:UIControlEventTouchDown];
+        [keyButtons setObject:button forKey:[NSNumber numberWithUnsignedInteger:i]];
+    }
+    moreButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [moreButton addTarget:self action:@selector(moreAction) forControlEvents:UIControlEventTouchDown];
+    [self setFontSize:17.0];
     [self updateSubviews];
     _delegate = nil;
 }
@@ -115,7 +159,21 @@ NSString * getDecimalSeparator() {
     [[self getButton:kNeg] setFrame:[self getButtonBounds:4:2]];
     [[self getButton:kAdd] setFrame:[self getButtonBounds:4:3]];
     [[self getButton:kInv] setFrame:[self getButtonBounds:1:0]];
-    [[self getButton:kPi] setFrame:[self getButtonBounds:1:1]];
+    [[self getButton:kPow] setFrame:[self getButtonBounds:1:1]];
+    [[self getButton:kSqrt] setFrame:[self getButtonBounds:1:2]];
+    [[self getButton:kExp10] setFrame:[self getButtonBounds:1:3]];
+    [[self getButton:kPi] setFrame:[self getButtonBounds:2:0]];
+    [[self getButton:kXRoot] setFrame:[self getButtonBounds:2:1]];
+    [[self getButton:kSqr] setFrame:[self getButtonBounds:2:2]];
+    [[self getButton:kLog10] setFrame:[self getButtonBounds:2:3]];
+    [[self getButton:kSin] setFrame:[self getButtonBounds:3:0]];
+    [[self getButton:kCos] setFrame:[self getButtonBounds:3:1]];
+    [[self getButton:kTan] setFrame:[self getButtonBounds:3:2]];
+    [[self getButton:kExp] setFrame:[self getButtonBounds:3:3]];
+    [[self getButton:kASin] setFrame:[self getButtonBounds:4:0]];
+    [[self getButton:kACos] setFrame:[self getButtonBounds:4:1]];
+    [[self getButton:kATan] setFrame:[self getButtonBounds:4:2]];
+    [[self getButton:kLog] setFrame:[self getButtonBounds:4:3]];
     [moreButton setFrame:[self getButtonBounds:0:3]];
 }
 
@@ -151,6 +209,9 @@ NSString * getDecimalSeparator() {
 }
 
 - (void)keyClickAction:(UIButton *)sender {
+    moreKeysShown = false;
+    [self updateSubviews];
+    [self refresh];
     [self.delegate keypadView:self keyWasPressed:[self getKeyFromButton:sender]];
 }
 

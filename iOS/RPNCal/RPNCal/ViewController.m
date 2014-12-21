@@ -241,6 +241,30 @@
             [self performUnaryOperation:opr];
         }
             break;
+        case kPow:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return powf(opr1,opr2);
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kSqrt:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return sqrtf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kExp10:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return powf(10, opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
         case kPi:
         {
             NullaryOperation opr = ^float(void) {
@@ -248,10 +272,100 @@
             };
             [self performNullaryOperation:opr];
         }
+            break;
+        case kXRoot:
+        {
+            BinaryOperation opr = ^float(float opr1, float opr2) {
+                return powf(opr1,1.0/opr2);
+            };
+            [self performBinaryOperation:opr];
+        }
+            break;
+        case kSqr:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return opr1*opr1;
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kLog10:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return log10f(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kSin:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return sinf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kCos:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return cosf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kTan:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return tanf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kExp:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return expf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kASin:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return asinf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kACos:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return acosf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kATan:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return atanf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
+        case kLog:
+        {
+            UnaryOperation opr = ^float(float opr1) {
+                return logf(opr1);
+            };
+            [self performUnaryOperation:opr];
+        }
+            break;
         case kNone:
             //Do nothing
             break;
     }
+    
     [self updateView];
 }
 
